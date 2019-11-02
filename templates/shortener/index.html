@@ -1,4 +1,18 @@
 {% extends 'shortener/base.html' %}
 {% block content %}
-
+    <form method="post">
+        {% csrf_token %}
+        <label for="url">Url: </label>
+        <input type="text" id="url" name="url">
+        <label for="days" >Days: </label>
+        <input type="text" name="days" id="days">
+        <input type="submit" value="Submit">
+    </form>
+    <p>Results:</p>
+    {% if url_object %}
+        {{ url_object.url_id }}
+        {{ url_object.url }}
+        {{ url_object.date_created }}
+        {{ url_object.days_to_expiry }}
+    {% endif %}
 {% endblock %}
