@@ -21,8 +21,8 @@ def index(request):
 def get_original_url(request, url_id):
     url = get_object_or_404(Url, pk=url_id)
 
-    if any(url.url.startswith(prt) for prt in ['https', 'http']):
-        return HttpResponseRedirect(url.url)
+    if any(url.url.strip().startswith(prt) for prt in ['https', 'http']):
+        return HttpResponseRedirect(url.url.strip())
     else:
         if url.url.startswith('www.'):
             return HttpResponseRedirect('http://' + url.url.strip('www.'))
