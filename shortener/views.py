@@ -13,4 +13,6 @@ def index(request):
 
         url_object = Url.objects.create(url_id=url_id, url=url, day_to_expiry=days)
 
-    return render(request, 'shortener/index.html', {'url': url_object})
+        return render(request, 'shortener/index.html', {'url': url_object})
+
+    return render(request, 'shortener/index.html')
