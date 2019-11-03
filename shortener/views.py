@@ -11,7 +11,13 @@ from datetime import timedelta
 def index(request):
     if request.method == "POST":
         url = request.POST.get('url', '')
-        days = int(request.POST.get('days', ''))
+        days = request.POST.get('days', '')
+
+        try:
+            days = int(days)
+        except ValueError:
+            days = 90
+
         url_id = get_short_code_for_url()
         if request.user.is_authenticated:
             url_object = Url.objects.create(url_id=url_id, url=url, days_to_expiry=days, created_by=request.user)
@@ -43,7 +49,8 @@ def user_urls_list(request):
     if request.user.is_authenticated:
 
         user_urls = Url.objects.filter(created_by=request.user)
+        site_url = settings.SITE_URL
 
-        return render(request, 'shortener/user_urls.html', {'user_urls': user_urls})
+        return render(request, 'shortener/user_urls.html', {'user_urls': user_urls, 'site_url': site_url})
 
     return redirect('shortener:index')
