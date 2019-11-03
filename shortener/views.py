@@ -35,7 +35,7 @@ def get_original_url(request, url_id):
     url = get_object_or_404(Url, pk=url_id)
 
     if not url.check_expiry_date():
-        return redirect(request.META['HTTP_REFERRER'])
+        return redirect('/')
 
     if any(url.url.strip().startswith(prt) for prt in ['https', 'http']):
         return HttpResponseRedirect(url.url.strip())
@@ -48,7 +48,9 @@ def get_original_url(request, url_id):
 def user_urls_list(request):
     if request.user.is_authenticated:
 
+        user_urls = [url.check_expiry_date() for url in Url.objects.filter(created_by=request.user)]
         user_urls = Url.objects.filter(created_by=request.user)
+
         site_url = settings.SITE_URL
 
         return render(request, 'shortener/user_urls.html', {'user_urls': user_urls, 'site_url': site_url})
