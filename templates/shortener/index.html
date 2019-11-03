@@ -9,18 +9,42 @@
                 Shorten your URL
               </div>
               <div class="card-body">
-                <form>
+                <form method="post">
+                    {% csrf_token %}
                   <div class="form-group">
                     <label for="urlInput">Enter Url:</label>
-                    <input type="text" class="form-control" id="urlInput" placeholder="Enter URL" autocomplete="new-password">
+                    <input type="text" class="form-control" id="urlInput" name="url" placeholder="Enter URL" autocomplete="new-password">
                   </div>
                   <div class="form-group">
                     <label for="daysToExpiration">Days to expiration:</label>
-                    <input type="text" class="form-control" id="daysToExpiration" placeholder="Number of days" autocomplete="new-password">
+                    <input type="text" class="form-control" id="daysToExpiration" name="days" placeholder="Number of days" autocomplete="new-password">
                   </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-              </div>
+
+                {% if url_object %}
+                <div class="card mt-4">
+                    <div class="card-header">
+                        Results
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Great! Your URL is ready to use.
+                            {% if request.user.is_authenticated %}
+                                This URL is on your Urls page.
+                            {% else %}
+                                You are not logged in, so save this url somewhere before closing this page.
+                            {% endif %}
+                            URL will expire on {{ expiry_date }}.
+                        </p>
+
+                        <p class="card-text">URL: <a href="/{{ url_object.url_id }}" class="card-text" target="_blank">{{ site_url }}{{ url_object.url_id }}</a></p>
+                        <p class="card-text">Original URL: <a href="{{ url_object.url }}" class="card-text" target="_blank">{{ url_object.url }}</a></p>
+                        <p class="card-text">Created on: {{ url_object.date_created }}</p>
+                        <p class="card-text">Days to expiration: {{ url_object.days_to_expiry }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                </div>
             </div>
         </div>
         <div class="col-sm-2"></div>
