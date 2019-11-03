@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'shortener.apps.ShortenerConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
