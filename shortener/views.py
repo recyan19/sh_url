@@ -39,4 +39,11 @@ def get_original_url(request, url_id):
         return HttpResponseRedirect('http://' + url.url)
 
 
-# def user_urls(request):
+def user_urls(request):
+    if request.user.is_authenticated:
+
+        user_urls = Url.objects.filter(created_by=request.user)
+
+        return render(request, 'shortener/user_urls.html', {'user_urls': user_urls})
+
+    return redirect('shortener:index')
