@@ -13,8 +13,10 @@ def index(request):
         url = request.POST.get('url', '')
         days = int(request.POST.get('days', ''))
         url_id = get_short_code_for_url()
-
-        url_object = Url.objects.create(url_id=url_id, url=url, days_to_expiry=days)
+        if request.user.is_authenticated:
+            url_object = Url.objects.create(url_id=url_id, url=url, days_to_expiry=days, created_by=request.user)
+        else:
+            url_object = Url.objects.create(url_id=url_id, url=url, days_to_expiry=days)
         expiry_date = url_object.date_created + timedelta(days=url_object.days_to_expiry)
         site_url = settings.SITE_URL
 
@@ -35,3 +37,6 @@ def get_original_url(request, url_id):
         if url.url.startswith('www.'):
             return HttpResponseRedirect('http://' + url.url.strip('www.'))
         return HttpResponseRedirect('http://' + url.url)
+
+
+# def user_urls(request):
