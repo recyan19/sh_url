@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, Http404
+from django.conf import settings
 from shortener.models import Url
 from shortener.utils import get_short_code_for_url
+
+from datetime import timedelta
 
 
 def index(request):
@@ -12,8 +15,10 @@ def index(request):
         url_id = get_short_code_for_url()
 
         url_object = Url.objects.create(url_id=url_id, url=url, days_to_expiry=days)
+        expiry_date = url_object.date_created + timedelta(days=url_object.days_to_expiry)
+        site_url = settings.SITE_URL
 
-        return render(request, 'shortener/index.html', {'url_object': url_object})
+        return render(request, 'shortener/index.html', {'url_object': url_object, 'site_url': site_url, 'expiry_date': expiry_date})
 
     return render(request, 'shortener/index.html')
 
