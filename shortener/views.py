@@ -39,7 +39,7 @@ def get_original_url(request, url_id):
         return HttpResponseRedirect('http://' + url.url)
 
 
-def user_urls(request):
+def user_urls_list(request):
     if request.user.is_authenticated:
 
         user_urls = Url.objects.filter(created_by=request.user)
