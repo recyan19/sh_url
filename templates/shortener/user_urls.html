@@ -1,0 +1,24 @@
+{% extends 'shortener/base.html' %}
+
+{% block content %}
+    <div class="container">
+        {% for url in user_urls %}
+
+            <div class="row mt-5">
+                <div class="col-sm-4">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            {{ forloop.counter }}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">URL: <a href="/{{ url.url_id }}" class="card-text" target="_blank">{{ site_url }}{{ url.url_id }}</a></p>
+                            <p class="card-text">Original URL: <a href="{{ url.url }}" class="card-text" target="_blank">{{ url.url }}</a></p>
+                            <p class="card-text">Created on: {{ url.date_created }}</p>
+                            <p class="card-text">Expiry date: {{ url.date_created|plus_days:url.days_to_expiry}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
