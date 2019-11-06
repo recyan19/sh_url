@@ -4,7 +4,7 @@ from datetime import date
 
 
 class Url(models.Model):
-    created_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, null=True, blank=True, related_name='urls', on_delete=models.CASCADE)
     url_id = models.SlugField(max_length=7, primary_key=True)
     url = models.URLField(max_length=250)
     date_created = models.DateField(auto_now_add=True)
