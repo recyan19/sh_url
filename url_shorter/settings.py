@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     'shortener.apps.ShortenerConfig',
     'accounts.apps.AccountsConfig',
+    'shurl_api.apps.ShurlApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +132,9 @@ SITE_URL = 'http://localhost:8000/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3
+}
