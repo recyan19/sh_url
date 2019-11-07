@@ -14,14 +14,14 @@ README for sh_url (guide for Ubuntu):
 API:
 
 endpoints:
-/api/users/
-/api/users/<int:pk>/
-/api/urls/
-/api/urls/<str:url_id>/
+1) /api/users/
+2) /api/users/<int:pk>/
+3) /api/urls/
+4) /api/urls/<str:url_id>/
 
 To create an url as authenticated user:
-   http -a username:password --form POST url="url" days="days"
+1) http -a username:password --form POST url="url" days="days"
 unauthenticated:
-   http -a --form POST "url"
+2) http -a --form POST "url"
 To get info about shortened url: 
-   http -a username:password http://localhost:8000/api/urls/<str:url_id>/
+3)http -a username:password http://localhost:8000/api/urls/<str:url_id>/
